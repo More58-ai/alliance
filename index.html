@@ -372,6 +372,43 @@
         function drw(){ ctx.clearRect(0,0,cvs.width,cvs.height); ctx.fillStyle="rgba(255,255,255,0.2)"; ctx.beginPath(); fs.forEach(f=>{ ctx.moveTo(f.x,f.y); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); f.y+=f.s; if(f.y>cvs.height)f.y=-5; }); ctx.fill(); requestAnimationFrame(drw); }
         res(); drw(); window.onresize=res;
         let mOn=false; window.playMusic=()=>{ if(!mOn){ const m=document.getElementById('bg-music'); m.volume=0.1; m.play(); mOn=true; } };
-    </script>
+   // Блокування правої кнопки миші (контекстне меню)
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// Блокування гарячих клавіш
+document.addEventListener('keydown', function(e) {
+    // Блокування F12
+    if (e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+    }
+
+    // Блокування Ctrl+U (Вихідний код)
+    if (e.ctrlKey && e.keyCode === 85) {
+        e.preventDefault();
+        return false;
+    }
+
+    // Блокування Ctrl+Shift+I (Інструменти розробника)
+    if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+        e.preventDefault();
+        return false;
+    }
+
+    // Блокування Ctrl+Shift+J (Консоль)
+    if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+        e.preventDefault();
+        return false;
+    }
+
+    // Блокування Ctrl+S (Збереження сторінки)
+    if (e.ctrlKey && e.keyCode === 83) {
+        e.preventDefault();
+        return false;
+    }
+});
+   </script>
 </body>
 </html>
