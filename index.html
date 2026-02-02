@@ -2,6 +2,7 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alliance | Elite UA Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@700&family=Press+Start+2P&family=Bungee+Shade&family=Kelly+Slab&display=swap" rel="stylesheet">
     <style>
@@ -15,7 +16,7 @@
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, transparent, var(--gold), transparent); border-radius: 10px; border: 2px solid #000; }
 
-        body { background: var(--bg); color: white; font-family: 'Montserrat', sans-serif; margin: 0; min-width: 1200px; overflow-x: hidden; }
+        body { background: var(--bg); color: white; font-family: 'Montserrat', sans-serif; margin: 0; width: 100%; overflow-x: hidden; }
         .background-scene { position: fixed; inset: 0; background: url('https://wallpaperaccess.com/full/240212.jpg') center/cover no-repeat; z-index: -2; filter: brightness(0.12); }
         #snow-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 1002; }
 
@@ -65,6 +66,33 @@
         .font-neon { font-family: 'Orbitron'; color: #fff; text-shadow: 0 0 10px var(--gold); }
         .font-magic { font-family: 'Bungee Shade'; color: var(--gold); }
         .font-ancient { font-family: 'Kelly Slab'; letter-spacing: 2px; }
+        /* АДАПТИВ ДЛЯ ТЕЛЕФОНІВ */
+        @media screen and (max-width: 1199px) {
+            body { min-width: 100vw; }
+            header { 
+                height: auto; 
+                padding: 15px; 
+                flex-direction: column; 
+                position: relative; 
+                gap: 15px;
+            }
+            header div:last-child { 
+                flex-wrap: wrap; 
+                justify-content: center; 
+                gap: 10px; 
+            }
+            .btn-fancy { padding: 8px 15px; font-size: 10px; }
+            main { padding-top: 50px !important; }
+            main h1 { font-size: 45px !important; }
+            .modal-content { width: 90% !important; padding: 20px !important; }
+            .staff-grid { grid-template-columns: 1fr !important; padding: 10px !important; }
+            .player-card { padding: 15px !important; }
+            .modal-full { height: 95vh !important; }
+        }
+        /* ПОВЕРТАЄМО ШИРИНУ ДЛЯ ПК */
+        @media screen and (min-width: 1200px) {
+            body { min-width: 1200px; }
+        }
     </style>
 </head>
 <body onclick="playMusic()">
@@ -73,13 +101,16 @@
     <div class="background-scene"></div>
     <audio id="bg-music" loop><source src="https://raw.githubusercontent.com/More58-ai/NPU/main/Wham!%20-%20Last%20Christmas%20(Official%20Video).mp3" type="audio/mpeg"></audio>
 
-    <header>
+   <header>
         <div style="display:flex; align-items:center; gap:20px;">
             <img src="https://i.postimg.cc/7YtjW6Px/logo-al'ans.jpg" style="height:55px; border-radius:50%; border:2px solid var(--gold);">
             <div style="font-family:'Orbitron'; font-size: 26px; color: var(--gold); letter-spacing: 4px;">ALLIANCE UA</div>
         </div>
         <div style="display:flex; gap: 20px;">
+            <button class="btn-fancy" style="border-color: #00ff00; color: #00ff00;" onclick="toggleModal('m-donate', true)">💎 Підтримати</button>
+            
             <button class="btn-fancy" id="adm-pending-btn" style="display:none;" onclick="toggleModal('m-pending', true)">📩 Заявки</button>
+            
             <button class="btn-fancy" onclick="toggleModal('m-justice-main', true)">⚖️ Суд</button>
             <button class="btn-fancy" onclick="toggleModal('m-players', true)">👥 Реєстр</button>
             <button class="btn-fancy" onclick="toggleModal('m-profile', true)">👤 Профіль</button>
@@ -94,6 +125,28 @@
         </div>
     </main>
 
+    <div id="m-donate" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <h2 class="font-neon" style="color: var(--gold);">ДЯКУЄМО ЗА ПІДТРИМКУ!</h2>
+            <p style="margin: 25px 0;">Ваші донати допомагають Альянсу розвиватися.</p>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <button class="btn-fancy" style="background: #e67e22; color: #fff;" onclick="window.open('https://send.monobank.ua/jar/7sr4MKasrR', '_blank')">🏦 MONOBANK Банка</button>
+                <button class="btn-fancy" style="border-color: var(--blue); color: var(--blue);" onclick="toggleModal('m-card-info', true)">💳 Номер Карти(monobank)</button>
+            </div>
+            <p onclick="toggleModal('m-donate', false)" style="margin-top:30px; cursor:pointer; opacity:0.3;">ЗАКРИТИ</p>
+        </div>
+    </div>
+
+    <div id="m-card-info" class="modal" style="z-index: 6000;">
+        <div class="modal-content" style="width: 450px; text-align: center; border-color: var(--blue);">
+            <h3 class="font-neon">НОМЕР КАРТКИ</h3>
+            <div style="background: #111; padding: 20px; border-radius: 15px; border: 1px dashed var(--gold); color: var(--gold); margin: 20px 0; cursor: pointer;" onclick="copyCard()">
+                4874 1000 2443 5797
+            </div>
+            <button class="btn-fancy" onclick="toggleModal('m-card-info', false)">НАЗАД</button>
+        </div>
+    </div>
+    
     <div id="m-justice-main" class="modal">
         <div class="modal-content">
             <h2 class="font-neon" style="text-align:center;">СУДОВА СИСТЕМА</h2>
@@ -195,7 +248,7 @@
         </div>
     </div>
 
-    <script type="module">
+<script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
         import { getDatabase, ref, set, onValue, get, update, push, remove } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 
@@ -221,9 +274,13 @@
         const STATS = { need: "ОЧІКУЄ", review: "НА РОЗГЛЯДІ", ok: "СХВАЛЕНО", no: "ВІДХИЛЕНО" };
         const S_CLASSES = { need: "sb-need", review: "sb-review", ok: "sb-ok", no: "sb-no" };
 
-        window.toggleModal = (id, s) => document.getElementById(id).style.display = s ? 'flex' : 'none';
+       window.toggleModal = (id, s) => document.getElementById(id).style.display = s ? 'flex' : 'none';
+        
+        window.copyCard = () => {
+            navigator.clipboard.writeText('4874100024435797');
+            alert('Номер картки скопійовано!');
+        };
 
-        // АВТОРИЗАЦІЯ ТА СИСТЕМА СХВАЛЕННЯ
         window.register = async () => {
             const n = document.getElementById('u-n').value.trim(), p = document.getElementById('u-p').value.trim();
             if(!n || !p) return alert("Заповніть поля!");
@@ -242,7 +299,6 @@
         window.logout = () => { localStorage.clear(); location.reload(); };
         window.clearDenied = () => { localStorage.removeItem('waiting_nick'); location.reload(); };
 
-        // ПЕРЕВІРКА СТАТУСУ ЗАЯВКИ
         const wNick = localStorage.getItem('waiting_nick');
         if(wNick && !curUser) {
             document.getElementById('auth-box').style.display = 'none';
@@ -257,7 +313,6 @@
                         document.getElementById('auth-wait').style.display = 'block';
                     }
                 } else {
-                    // Якщо запису немає в pending, можливо вже схвалено - пробуємо залогінитись автоматично
                     get(ref(db, 'users/'+wNick)).then(us => {
                         if(us.exists()) { localStorage.setItem('mc_user', wNick); localStorage.removeItem('waiting_nick'); location.reload(); }
                     });
@@ -265,7 +320,6 @@
             });
         }
 
-        // КЕРУВАННЯ ЗАЯВКАМИ (Pending)
         onValue(ref(db, 'pending_users'), s => {
             const cont = document.getElementById('pending-list-render');
             const data = s.val() || {};
@@ -289,7 +343,6 @@
             await update(ref(db, 'pending_users/'+n), { status: 'denied', admin: curUser });
         };
 
-        // ПРОФІЛЬ ТА ДОСТУП
         if(curUser) {
             onValue(ref(db, 'users/'+curUser), s => {
                 const u = s.val(); if(!u) return;
@@ -307,15 +360,22 @@
             });
         }
 
-        // РЕЄСТР
-        onValue(ref(db, 'users'), s => {
+       onValue(ref(db, 'users'), s => {
             const cont = document.getElementById('staff-render-box');
             const players = Object.values(s.val() || {});
-            players.sort((a,b) => (R_MAP[b.roles[0]]?.p||0) - (R_MAP[a.roles[0]]?.p||0));
-            cont.innerHTML = players.map(u => `<div class="player-card"><img src="https://minotar.net/avatar/${u.nickname}"><div><div class="nick-glow ${u.font||''}" style="font-size:20px; font-weight:900;">${u.nickname}</div><div>${u.roles.map(r=>`<span class="role-tag ${R_MAP[r]?.c}">${R_MAP[r]?.n}</span>`).join('')}</div></div></div>`).join('');
+            players.sort((a,b) => (R_MAP[b.roles?.[0]]?.p||0) - (R_MAP[a.roles?.[0]]?.p||0));
+            cont.innerHTML = players.map(u => {
+                const roles = Array.isArray(u.roles) ? u.roles : [u.roles || 'citizen'];
+                return `<div class="player-card">
+                    <img src="https://minotar.net/avatar/${u.nickname}">
+                    <div>
+                        <div class="nick-glow ${u.font||''}" style="font-size:20px; font-weight:900;">${u.nickname}</div>
+                        <div>${roles.map(r=>`<span class="role-tag ${R_MAP[r]?.c || 'r-citizen'}">${R_MAP[r]?.n || 'Мешканець'}</span>`).join('')}</div>
+                    </div>
+                </div>`;
+            }).join('');
         });
 
-        // СУД
         window.submitReport = async () => {
             const t = document.getElementById('rep-target').value, d = document.getElementById('rep-discord').value, de = document.getElementById('rep-desc').value;
             if(!t || !de) return alert("Заповніть опис та нік!");
@@ -366,49 +426,20 @@
         };
         window.updateFont = (f) => update(ref(db, 'users/'+curUser), { font: f });
 
-        // FX
         const cvs=document.getElementById('snow-canvas'), ctx=cvs.getContext('2d'); let fs=[];
         function res(){ cvs.width=window.innerWidth; cvs.height=window.innerHeight; fs=[]; for(let i=0;i<80;i++) fs.push({x:Math.random()*cvs.width, y:Math.random()*cvs.height, r:Math.random()*2+1, s:Math.random()*0.5+0.2}); }
         function drw(){ ctx.clearRect(0,0,cvs.width,cvs.height); ctx.fillStyle="rgba(255,255,255,0.2)"; ctx.beginPath(); fs.forEach(f=>{ ctx.moveTo(f.x,f.y); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); f.y+=f.s; if(f.y>cvs.height)f.y=-5; }); ctx.fill(); requestAnimationFrame(drw); }
         res(); drw(); window.onresize=res;
         let mOn=false; window.playMusic=()=>{ if(!mOn){ const m=document.getElementById('bg-music'); m.volume=0.1; m.play(); mOn=true; } };
-   // Блокування правої кнопки миші (контекстне меню)
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-});
 
-// Блокування гарячих клавіш
-document.addEventListener('keydown', function(e) {
-    // Блокування F12
-    if (e.keyCode === 123) {
-        e.preventDefault();
-        return false;
-    }
-
-    // Блокування Ctrl+U (Вихідний код)
-    if (e.ctrlKey && e.keyCode === 85) {
-        e.preventDefault();
-        return false;
-    }
-
-    // Блокування Ctrl+Shift+I (Інструменти розробника)
-    if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
-        e.preventDefault();
-        return false;
-    }
-
-    // Блокування Ctrl+Shift+J (Консоль)
-    if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
-        e.preventDefault();
-        return false;
-    }
-
-    // Блокування Ctrl+S (Збереження сторінки)
-    if (e.ctrlKey && e.keyCode === 83) {
-        e.preventDefault();
-        return false;
-    }
-});
-   </script>
+        // ЗАХИСТ (додано в кінець модуля)
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.keyCode === 123 || (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83 || (e.shiftKey && (e.keyCode === 73 || e.keyCode === 74))))) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
 </body>
 </html>
